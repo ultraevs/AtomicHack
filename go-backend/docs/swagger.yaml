@@ -1,0 +1,7 @@
+info:
+  contact: {}
+  description: atomic.shmyaks.ru API
+  title: AtomicHack Service API
+  version: "1.0"
+paths: {}
+swagger: "2.0"
