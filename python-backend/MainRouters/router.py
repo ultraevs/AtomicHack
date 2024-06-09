@@ -7,7 +7,8 @@ import base64
 
 from ultralytics import YOLO
 from cv.nn import core
-model = YOLO('cv/models/absurdly-ridiculously-ultimate-defect-detection-device-turboX-extreme-v9.99-megaX-ultrasecret-super-duper-squirrel-master-pro-tactical.pt')
+import cv2
+model = YOLO('cv/models/good-bad_v1.pt')
 
 
 
@@ -17,14 +18,21 @@ router = APIRouter(tags=["Model"])
 @router.post("/process-image")
 async def process_image(file: UploadFile = File(...)):
     try:
-        
-        image_bytes = await file.read()
-        image = Image.open(io.BytesIO(image_bytes))
+        # + get draw_style from request
 
-        result = core.process(image_bytes, model)
+        # save image
+        results = core.process(
+            image_path=None, # path to saved image or add bytes transfer
+            model=model,
+            draw_style=1 # 0 = colored boxes, 1 = colored boxes with class and confidence
+        )
+        
+        # status: results -> result
+        # objects: results -> data -> objects list [[class, confidence], ...]
+        # image: results -> image
 
 
     except Exception as e:
-        raise HTTPException(status_code=400, detail="An error occured") from e
+        raise HTTPException(status_code=400, detail=e) from e
 
 app.include_router(router)
