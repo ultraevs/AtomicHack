@@ -1,0 +1,10 @@
+fastapi
+starlette
+ultralytics
+cv2
+uvicorn
+tensorflow
+pydantic
+python-multipart
+easyocr
+psycopg2-binary
