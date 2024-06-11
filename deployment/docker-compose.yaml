@@ -11,6 +11,16 @@ services:
     ports:
       - "8091:8091"
     network_mode: host
+  python-backend:
+      build:
+        context: ../python-backend/
+        dockerfile: Dockerfile
+      restart: always
+      environment:
+        - DOCKER_MODE=1
+      ports:
+        - "8000:8000"
+      network_mode: host
   bot:
     build:
       context: ../Bot/
