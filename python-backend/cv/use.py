@@ -6,16 +6,20 @@ import cv2
 
 model = YOLO('cv/models/good-bad_v1.pt')
 
+image = cv2.imread('cv/testing/good.jpg')
 
 results = core.process(
-    image_path='cv/testing/bad-crack.jpg',
-    model=model,
-    draw_style=1 # 0 = colored boxes, 1 = colored boxes with class and confidence, 2 = ...
+    image=image,
+    model=model
 )
 
 
-print(results['result'], results['data']['objects'])
+print(results['result'], results['objects'], results['images'])
 
-cv2.imwrite('cv/result.jpg', results['image'])
+c = 0
+for image in results['images']:
+    c += 1
+    cv2.imwrite(f'result{c}.jpg', image)
+
 
 # from python-backend/
