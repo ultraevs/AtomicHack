@@ -17,7 +17,7 @@ class ImageData(BaseModel):
     image: str
 
 
-@router.post("/process-image")
+@router.post("/check")
 async def process_image(data: ImageData):
     try:
         results = core.process(
