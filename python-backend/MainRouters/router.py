@@ -3,6 +3,7 @@ import cv2
 import numpy as np
 from cv.nn import core
 from fastapi import FastAPI, APIRouter, HTTPException
+from fastapi.responses import JSONResponse
 from pydantic import BaseModel
 from ultralytics import YOLO
 
@@ -24,13 +25,12 @@ async def process_image(data: ImageData):
             model=model
         )
 
-        return results 
         # {
         #    'result': 'success',
         #    'objects': [[class, conf], ...],
         #    'images': ['base64'*3]
         # }
-
+        return JSONResponse(content=results)
     except Exception as e:
         raise HTTPException(status_code=400, detail=str(e))
 
