@@ -9,7 +9,7 @@ from starlette.responses import Response
 
 from MainRouters.router import router
 
-app = FastAPI(root_path='/cv', docs_url="/cv/swagger", title="AtomicHack")
+app = FastAPI(root_path='/', docs_url="/cv/swagger", title="AtomicHack")
 origins = ["*"]
 app.include_router(router)
 logging.basicConfig(filename='work.log', level=logging.INFO, format='%(asctime)s - %(levelname)s - %(message)s')
