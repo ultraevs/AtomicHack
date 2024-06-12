@@ -1,7 +1,10 @@
 from ultralytics import YOLO
-import cv2
+import cv2, base64
+import numpy as np
 
-def process(image, model):
+def process(image64, model):
+    image = base64_to_cv2(image64)
+
     colorcode = {'bad': (0, 0, 255), 'good': (0, 255, 0)}
 
     result = detect_(image, model)
@@ -9,18 +12,26 @@ def process(image, model):
     return_ = []
     images_ = []
 
-    # debug data
-    for obj in result:
-        return_.append([obj[0], obj[1]])
+    if len(result) > 0:
 
-    for draw_style in range(2):
-        cloned_image = image.copy()
+        # debug data
         for obj in result:
-            cloned_image = draw(cloned_image, obj[2], draw_style, colorcode, obj[0], obj[1])
-        images_.append(cloned_image)
+            return_.append([obj[0], obj[1]])
+
+        for draw_style in range(2):
+            cloned_image = image.copy()
+            for obj in result:
+                cloned_image = draw(cloned_image, obj[2], draw_style, colorcode, obj[0], obj[1])
+            images_.append(image_to_base64(cloned_image))
+        result_ = 'success'
+
+    else:
+        return_ = []
+        images_ = [image]*3
+        result_ = 'objects were not found'
 
     final = {
-        'result': 'success',
+        'result': result_,
         'objects': return_,
         'images': images_
     }
@@ -62,4 +73,17 @@ def draw(image, xyxyn, draw_style, colorcode, class_, conf):
 
         cv2.putText(image, text, (text_x, text_y), font, font_scale, color, thickness)
 
+    return image
+
+
+def image_to_base64(image):
+    _, buffer = cv2.imencode('.jpg', image)
+    image_base64 = base64.b64encode(buffer).decode('utf-8')
+    
+    return image_base64
+
+def base64_to_cv2(image_base64):
+    image_data = base64.b64decode(image_base64)
+    np_array = np.frombuffer(image_data, np.uint8)
+    image = cv2.imdecode(np_array, cv2.IMREAD_COLOR)
     return image
