@@ -1,7 +1,11 @@
+import base64
 import logging
 import os
+from io import BytesIO
+
 from aiogram import Bot, types, Router, F
 from aiogram import Dispatcher
+from aiogram.client.session import aiohttp
 from aiogram.client.session.aiohttp import ClientSession
 from aiogram.filters import CommandStart, Command
 from aiogram.fsm.storage.memory import MemoryStorage
@@ -31,22 +35,25 @@ async def check_command(message: types.Message):
     await message.answer("Пожалуйста, отправьте мне ваше фото.")
 
 
+async def send_photo_to_api(photo_base64: str):
+    async with aiohttp.ClientSession() as session:
+        async with session.post(API_URL, json={'photo': photo_base64}) as response:
+            return await response.text()
+
+
 # Обработка полученного фото
 @router.message(F.content_type == ContentType.PHOTO)
 async def handle_photo(message: types.Message):
-    await message.answer("Заглушка типа")
-    # photo = message.photo[-1]
-    # photo_id = photo.file_id
-    #
-    # file = await bot.get_file(photo_id)
-    # file_path = file.file_path
-    # file_url = f'https://api.telegram.org/file/bot{API_TOKEN}/{file_path}'
-    #
-    # async with ClientSession() as session:
-    #     async with session.post(API_URL, json={'photo_url': file_url}) as response:
-    #         result = await response.json()
-    #
-    # await message.answer(f"Результат анализа: {result}")
+    photo = message.photo[-1]
+    file_info = await bot.get_file(photo.file_id)
+
+    photo_bytes = BytesIO()
+    await bot.download_file(file_info.file_path, destination=photo_bytes)
+
+    photo_base64 = base64.b64encode(photo_bytes.getvalue()).decode('utf-8')
+
+    response = await send_photo_to_api(photo_base64)
+    await message.reply(response)
 
 dp.include_router(router)
 
