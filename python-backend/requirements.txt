@@ -1,7 +1,7 @@
 fastapi
 starlette
 ultralytics
-cv2
+opencv-python
 uvicorn
 tensorflow
 pydantic
