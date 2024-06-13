@@ -13,6 +13,10 @@ import (
 // @title AtomicHack Service API
 // @version 1.0
 // @description atomic.shmyaks.ru API
+
+// @securityDefinitions.apikey CookieAuth
+// @in cookie
+// @name Authtoken
 func main() {
 	if err := godotenv.Load(); err != nil {
 		fmt.Printf("environment wasn't loaded: %+v", err)
