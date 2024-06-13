@@ -12,6 +12,15 @@ import (
 	"time"
 )
 
+// GenerateUserToken создать токен для юзера.
+// @Summary Создать токен для юзера
+// @Description Возвращает токен для cookie юзера.
+// @Accept json
+// @Produce json
+// @Success 200 {object} model.CodeResponse "Токен получен"
+// @Failure 400 {object} model.ErrorResponse "Не удалось получить токен"
+// @Tags History
+// @Router /v1/generate [get]
 func GenerateUserToken(context *gin.Context) {
 	token := jwt.NewWithClaims(jwt.SigningMethodHS256, jwt.MapClaims{
 		"sub": uuid.New().String(),
