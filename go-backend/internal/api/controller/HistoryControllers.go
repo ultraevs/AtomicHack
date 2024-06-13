@@ -89,14 +89,14 @@ func AddHistory(context *gin.Context) {
 		context.JSON(http.StatusBadRequest, gin.H{"error": "user_id cookie not found"})
 		return
 	}
-
-	if err := context.BindJSON(&model.NewHistory{}); err != nil {
+	var request model.NewHistory
+	if err := context.BindJSON(&request); err != nil {
 		context.JSON(http.StatusBadRequest, gin.H{"error": "invalid JSON data"})
 		return
 	}
 
 	currentTime := time.Now().Format(time.RFC3339)
-	_, err = database.Db.Exec("INSERT INTO atomic_history (user_id, date, result, status, photo) VALUES ($1, $2, $3, $4, $5)", userID, currentTime, requestData.Result, requestData.Status, requestData.Photo)
+	_, err = database.Db.Exec("INSERT INTO atomic_history (user_id, date, result, status, photo) VALUES ($1, $2, $3, $4, $5)", userID, currentTime, request.Result, request.Status, request.Photo)
 	if err != nil {
 		context.JSON(http.StatusInternalServerError, gin.H{"error": "failed to insert history into database"})
 		return
