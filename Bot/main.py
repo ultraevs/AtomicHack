@@ -1,4 +1,5 @@
 import base64
+import json
 import logging
 import os
 from io import BytesIO
@@ -14,7 +15,7 @@ from dotenv import load_dotenv
 
 load_dotenv()
 API_TOKEN = os.getenv('TOKEN')
-API_URL = "https://atomic.shmyaks.ru/cv/check/"
+API_URL = "https://atomic.shmyaks.ru/cv/check"
 
 logging.basicConfig(level=logging.INFO)
 
@@ -37,8 +38,14 @@ async def check_command(message: types.Message):
 
 async def send_photo_to_api(photo_base64: str):
     async with aiohttp.ClientSession() as session:
-        async with session.post(API_URL, json={'photo': photo_base64}) as response:
-            return await response.text()
+        async with session.post(API_URL, json={'image': photo_base64}) as response:
+            response_text = await response.text()
+            response_json = json.loads(response_text)
+            result = {
+                "result": response_json["result"],
+                "objects": response_json["objects"]
+            }
+            return result
 
 
 # Обработка полученного фото
@@ -53,7 +60,7 @@ async def handle_photo(message: types.Message):
     photo_base64 = base64.b64encode(photo_bytes.getvalue()).decode('utf-8')
 
     response = await send_photo_to_api(photo_base64)
-    await message.reply(response)
+    await message.reply(str(response))
 
 dp.include_router(router)
 
