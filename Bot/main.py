@@ -41,10 +41,15 @@ async def send_photo_to_api(photo_base64: str):
         async with session.post(API_URL, json={'image': photo_base64}) as response:
             response_text = await response.text()
             response_json = json.loads(response_text)
-            result = {
-                "result": response_json["result"],
-                "objects": response_json["objects"]
-            }
+            try:
+                result = {
+                    "result": response_json["result"],
+                    "objects": response_json["objects"]
+                }
+            except KeyError:
+                result = {
+                    "detail": response_json["detail"],
+                }
             return result
 
 
