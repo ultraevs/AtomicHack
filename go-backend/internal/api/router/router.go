@@ -31,5 +31,6 @@ func (router *Router) Setup() {
 	}))
 	router.engine.GET("v1/swagger/*any", ginSwagger.WrapHandler(swaggerFiles.Handler))
 	router.engine.Use(middleware.RateLimiterMiddleware())
-	//v1 := router.engine.Group("/v1")
+	v1 := router.engine.Group("/v1")
+	router.HistoryRouters(v1)
 }
