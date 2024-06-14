@@ -19,10 +19,12 @@ class ImageData(BaseModel):
 
 @router.post("/check")
 async def process_image(data: ImageData):
-    try:
+    try: 
         results = core.process(
             image64=data.image,
-            model=model
+            model=model,
+            colorcode={'bad': (0, 0, 255), 'good': (0, 255, 0)},
+            conf=0.65
         )
 
         # {
