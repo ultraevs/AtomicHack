@@ -17,7 +17,7 @@ import (
 // @Param date query string false "Дата для фильтрации"
 // @Param status query string false "Статус для фильтрации"
 // @Success 200 {array} model.Recognition "Список распознаваний"
-// @Failure 400 {object} gin.H "Не удалось получить распознавания"
+// @Failure 400 {object} model.ErrorResponse "Не удалось получить распознавания"
 // @Tags Admin
 // @Router /v1/getrecognitions [get]
 func GetRecognitions(context *gin.Context) {
