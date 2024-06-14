@@ -1,6 +1,12 @@
 version: "3.3"
 
 services:
+  frontend:
+    build:
+      context: ../atomic/
+      dockerfile: Dockerfile
+    ports:
+      - "5181:5181"
   backend:
     build:
       context: ../go-backend/
