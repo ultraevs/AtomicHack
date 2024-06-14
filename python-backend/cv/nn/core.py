@@ -2,19 +2,36 @@ from ultralytics import YOLO
 import cv2, base64
 import numpy as np
 
-def process(image64, model):
+def process(image64, model, colorcode=None, conf=None):
+    """
+    This function processes an image, detects objects, and draws bounding boxes with labels.
+
+    Parameters:
+    image64 (str): The base64 encoded image.
+    model (YOLO): The YOLO model for object detection.
+    colorcode (dict, optional): The color code for each class. Being automatically generated if not provided.
+    conf (float, optional): The confidence threshold for object detection. Defaults to 0.6.
+
+    Returns:
+    dict: A dictionary containing the result, objects, and images.
+    """
+    if not is_base64_image(image64):
+        return {'result': 'not an image', 'objects': [], 'images': [image64]*3}
+
     image = base64_to_cv2(image64)
 
-    colorcode = {'bad': (0, 0, 255), 'good': (0, 255, 0)}
+    classnames = model.model.names
+    classnames_values = list(model.model.names.values())
+    
+    if colorcode is None or len(colorcode)!= len(classnames):
+        colorcode = assign_colors_to_classes(generate_colors(len(classnames)), classnames)
 
-    result = detect_(image, model)
+    result = detect_(image, model, classnames_values, conf)
 
     return_ = []
     images_ = []
 
     if len(result) > 0:
-
-        # debug data
         for obj in result:
             return_.append([obj[0], obj[1]])
 
@@ -27,7 +44,7 @@ def process(image64, model):
 
     else:
         return_ = []
-        images_ = [image]*3
+        images_ = [image_to_base64(image)]*3
         result_ = 'objects were not found'
 
     final = {
@@ -38,13 +55,21 @@ def process(image64, model):
 
     return final
 
-def detect_(image, model):
-    results = model(image, save=False, verbose=False, conf=0.6)
+def detect_(image, model, classname_values, conf=0.6):
+    results = model(image, save=False, verbose=True, conf=conf)
     
+    res = []
+
     # class, conf, xyxyn
-    res = [[['bad', 'good'][int(result.boxes.cls)], str(result.boxes.conf.tolist()[0])[:5], result.boxes.xyxyn.tolist()[0]] for result in results]
+    for result in results:
+        for i in range(len(result)):
+            class_ = int(result.boxes.cls[i])
+            conf = str(result.boxes.conf[i].item())[:5]
+            xyxyn = result.boxes.xyxyn[i].tolist()
+            res.append([classname_values[class_], conf, xyxyn])
 
     return res
+
 
 def draw(image, xyxyn, draw_style, colorcode, class_, conf):
     height, width, _ = image.shape
@@ -121,24 +146,35 @@ def base64_to_cv2(image_base64):
     image = cv2.imdecode(np_array, cv2.IMREAD_COLOR)
     return image
 
+def generate_colors(n):
+    if n <= 0:
+        return []
 
-# Example usage
-if __name__ == "__main__":
-    model = YOLO('cv/models/good-bad_v1.pt')
+    colors = set()
+    i = 0
+    while len(colors) < n:
+        r = (i * 53) % 256
+        g = (i * 97) % 256
+        b = (i * 173) % 256
+        if (r, g, b) != (0, 0, 0) and (r, g, b) != (255, 255, 255):
+            colors.add((r, g, b))
+        i += 1
+    return list(colors)
 
-    image = cv2.imread('cv/testing/good.jpg')
+def assign_colors_to_classes(colors, class_dict):
+    class_colors = {}
+    for i, (class_key, class_name) in enumerate(class_dict.items()):
+        if i < len(colors):
+            class_colors[class_name] = colors[i]
+        else:
+            class_colors[class_name] = colors[-1]
+    return class_colors
 
-    image_base64 = image_to_base64(image)
-
-    results = process(
-        image64=image_base64,
-        model=model
-    )
-
-    print(results['result'], results['objects'])
-
-    c = 0
-    for image_base64 in results['images']:
-        c += 1
-        image = base64_to_cv2(image_base64)
-        cv2.imwrite(f'result{c}.jpg', image)
+def is_base64_image(data):
+    try:
+        base64_bytes = base64.b64decode(data, validate=True)
+        if base64_bytes.startswith((b'\xff\xd8', b'\x89PNG', b'GIF')):
+            return True
+    except (base64.binascii.Error, ValueError):
+        pass
+    return False
