@@ -45,7 +45,7 @@ func ConnectDatabase() {
 	CREATE TABLE IF NOT EXISTS atomic_users (
 		id SERIAL PRIMARY KEY,
 		name VARCHAR(255) NOT NULL,
-	    email VARCHAR(255) NOT NULL UNIQUE,
+	    user_id INTEGER NOT NULL UNIQUE,
 	    is_admin BOOLEAN,
 	    password VARCHAR(255) NOT NULL
 	);
