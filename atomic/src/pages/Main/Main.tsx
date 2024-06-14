@@ -55,6 +55,7 @@ const Main = () => {
   const buttonClearClick = () => {
     dispatch(setImgList({ items: [] }));
     setIsFileLoaded(false);
+    setFile([])
   };
 
   useEffect(() => {
@@ -73,14 +74,19 @@ const Main = () => {
               alt={`${indexOfTheFile} ml image`}
             />
           </div>
-          <div>
+          <div className={styles.tumblers}>
             {items.map((item, index) => (
-              <span
-                style={{ margin: "0 10px" }}
+              <div
+                key={item}
+                className={
+                  indexOfTheFile === index
+                    ? cn(styles.tumbler, styles.active)
+                    : styles.tumbler
+                }
                 onClick={() => setIndexOfTheFile(index)}
               >
-                {index + 1}
-              </span>
+                <span></span>
+              </div>
             ))}
           </div>
         </>
