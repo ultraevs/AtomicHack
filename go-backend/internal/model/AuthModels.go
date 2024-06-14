@@ -9,6 +9,11 @@ type UserCreateRequest struct {
 type LoginRequest struct {
 	Email    string `json:"email" binding:"required"`
 	Password string `json:"password" binding:"required"`
+}
+
+type LoginResponse struct {
+	Email    string `json:"email" binding:"required"`
+	Password string `json:"password" binding:"required"`
 	Name     string `json:"name"  binding:"required"`
 	IsAdmin  bool   `json:"is_admin" binding:"required"`
 }
