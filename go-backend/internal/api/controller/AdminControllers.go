@@ -16,7 +16,7 @@ import (
 // @Param name query string false "Имя пользователя для фильтрации"
 // @Param date query string false "Дата для фильтрации"
 // @Param status query string false "Статус для фильтрации"
-// @Success 200 {array} Recognition "Список распознаваний"
+// @Success 200 {array} model.Recognition "Список распознаваний"
 // @Failure 400 {object} gin.H "Не удалось получить распознавания"
 // @Tags Admin
 // @Router /v1/getrecognitions [get]
