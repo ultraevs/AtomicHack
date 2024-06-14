@@ -6,10 +6,12 @@
 
 body {
   background: #FFFFFF;
+  
 }
 
 .container {
   margin: 10px 20px;
+  max-width: 500px;
   width: auto;
 }
 

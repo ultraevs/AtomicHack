@@ -1,0 +1,11 @@
+.history__items {
+  height: 526px;
+  overflow-y: scroll;
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+.history__items::-webkit-scrollbar {
+    display: none;
+}

@@ -1,0 +1,21 @@
+.header {
+  width: 100%;
+  height: 96px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.header__title {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  gap: 12px;
+}
+
+.header__title p {
+  font-family: StolzlBook;
+  color: #000000;
+  font-size: 16px;
+  line-height: 19.2px;
+}

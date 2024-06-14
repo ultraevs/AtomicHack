@@ -8,3 +8,17 @@ interface FileItem {
   type: string;
   webkitRelativePath: string;
 }
+
+interface LoginInput {
+  id: string;
+  password: string;
+}
+
+interface HistoryItem {
+  date: string;
+  id: number;
+  name: string;
+  photo: string;
+  result: string;
+  status: string;
+}

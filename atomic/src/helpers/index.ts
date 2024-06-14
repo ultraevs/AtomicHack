@@ -1,3 +1,5 @@
+import Cookies from "js-cookie";
+
 export const convertFileToBase64 = (file: File): Promise<string> => {
   return new Promise((resolve, reject) => {
     const reader = new FileReader();
@@ -11,4 +13,8 @@ export const convertFileToBase64 = (file: File): Promise<string> => {
 
     reader.readAsDataURL(file);
   });
+};
+
+export const setAuthTokenCookie = (token: string) => {
+  Cookies.set("Authtoken", token, { expires: 7 });
 };

@@ -3,9 +3,11 @@ import styles from "./styles.module.css";
 import cn from "classnames";
 import { useDropzone } from "react-dropzone";
 import { convertFileToBase64 } from "../../helpers";
-import { setImgList, uploadImg } from "../../state/slices/ImgList/ImgList";
+import { setImgList, uploadImg } from "../../state/slices/ImgList/ImgListSlice";
 import { useDispatch, useSelector } from "react-redux";
 import { RootState } from "../../state/store";
+import { Layout } from "../../layout/Layout";
+import { ModelResult } from "../../components/ModelResult";
 // eslint-disable-next-line no-unused-vars
 React;
 
@@ -14,6 +16,7 @@ const Main = () => {
   const [isFileLoaded, setIsFileLoaded] = useState<boolean>(false);
   const [file, setFile] = useState<any[]>([]);
   const [indexOfTheFile, setIndexOfTheFile] = useState<number>(0);
+
   const { getRootProps, getInputProps } = useDropzone({
     maxFiles: 1,
     accept: {
@@ -46,7 +49,7 @@ const Main = () => {
   const buttonConfirmClick = async () => {
     try {
       const base64String = await convertFileToBase64(file[0]);
-      const response = dispatch(uploadImg(base64String.split(",")[1]));
+      dispatch(uploadImg(base64String.split(",")[1]));
     } catch (error) {
       console.error("Ошибка при преобразовании файла в base64:", error);
     }
@@ -55,7 +58,7 @@ const Main = () => {
   const buttonClearClick = () => {
     dispatch(setImgList({ items: [] }));
     setIsFileLoaded(false);
-    setFile([])
+    setFile([]);
   };
 
   useEffect(() => {
@@ -65,65 +68,49 @@ const Main = () => {
   const items = useSelector((store: RootState) => store.imgList.items);
 
   return (
-    <section className={cn("container", styles.page)}>
-      {items.length ? (
-        <>
-          <div className={styles.dropzone}>
-            <img
-              src={`data:image/jpeg;base64,${items[indexOfTheFile]}`}
-              alt={`${indexOfTheFile} ml image`}
-            />
+    <Layout>
+      <div className={cn("container", styles.page)}>
+        {items.length ? (
+          <ModelResult
+            items={items}
+            fileIndex={indexOfTheFile}
+            setFileIndex={setIndexOfTheFile}
+          />
+        ) : (
+          <div {...getRootProps({ className: `${styles.dropzone}` })}>
+            {isFileLoaded ? (
+              <>{fileImg}</>
+            ) : (
+              <>
+                <input {...getInputProps()} />
+                <p>
+                  Загрузите фото
+                  <br />
+                  <span>Нажмите на это окно</span>
+                </p>
+              </>
+            )}
           </div>
-          <div className={styles.tumblers}>
-            {items.map((item, index) => (
-              <div
-                key={item}
-                className={
-                  indexOfTheFile === index
-                    ? cn(styles.tumbler, styles.active)
-                    : styles.tumbler
-                }
-                onClick={() => setIndexOfTheFile(index)}
-              >
-                <span></span>
-              </div>
-            ))}
-          </div>
-        </>
-      ) : (
-        <div {...getRootProps({ className: `${styles.dropzone}` })}>
-          {isFileLoaded ? (
-            <>{fileImg}</>
-          ) : (
-            <>
-              <input {...getInputProps()} />
-              <p>
-                Загрузите фото
-                <br />
-                <span>Нажмите на это окно</span>
-              </p>
-            </>
-          )}
-        </div>
-      )}
+        )}
 
-      <button
-        className={
-          isFileLoaded
-            ? cn(styles.button, styles.buttonConfirm)
-            : cn(styles.button, styles.buttonClear)
-        }
-        onClick={() => {
-          if (items.length) {
-            buttonClearClick();
-          } else {
-            buttonConfirmClick();
+        <button
+          className={
+            isFileLoaded
+              ? cn(styles.button, styles.buttonConfirm)
+              : cn(styles.button, styles.buttonClear)
           }
-        }}
-      >
-        {items.length ? "Очистить" : "Подтвердить"}
-      </button>
-    </section>
+          onClick={() => {
+            if (items.length) {
+              buttonClearClick();
+            } else {
+              buttonConfirmClick();
+            }
+          }}
+        >
+          {items.length ? "Очистить" : "Подтвердить"}
+        </button>
+      </div>
+    </Layout>
   );
 };
 
