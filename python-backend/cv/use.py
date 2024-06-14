@@ -4,33 +4,36 @@ import cv2
 import base64
 import numpy as np
 
-def cv2_to_base64(image):
-    _, buffer = cv2.imencode('.jpg', image)
-    image_base64 = base64.b64encode(buffer).decode('utf-8')
-    return image_base64
+def image_to_base64(image_path):
+    try:
+        with open(image_path, "rb") as img_file:
+            img_data = img_file.read()
+            img_base64 = base64.b64encode(img_data).decode('utf-8')
+            return img_base64
+    except FileNotFoundError:
+        print(f"File '{image_path}' not found.")
+        return None
+    except Exception as e:
+        print(f"An error occurred: {str(e)}")
+        return None
 
-def base64_to_cv2(image_base64):
-    image_data = base64.b64decode(image_base64)
-    np_array = np.frombuffer(image_data, np.uint8)
-    image = cv2.imdecode(np_array, cv2.IMREAD_COLOR)
-    return image
 
 model = YOLO('cv/models/good-bad_v1.pt')
 
-image = cv2.imread('cv/testing/good.jpg')
 
-image_base64 = cv2_to_base64(image)
+image_base64 = image_to_base64('cv/testing/bad.jpg')
 
 results = core.process(
     image64=image_base64,
-    model=model
+    model=model,
+    colorcode={'bad': (0, 0, 255), 'good': (0, 255, 0)},
+    conf=0.65
 )
 
-# Вывод результатов
-print(results['result'], results['objects'])
+print(results)
 
-c = 0
-for image_base64 in results['images']:
-    c += 1
-    image = base64_to_cv2(image_base64)
-    cv2.imwrite(f'result{c}.jpg', image)
+for i, base64_str in enumerate(results['images'], 1):
+    img_data = base64.b64decode(base64_str)
+    filename = f"result_{i}.jpg"
+    with open(filename, 'wb') as f:
+        f.write(img_data)
