@@ -10,12 +10,15 @@ interface FileItem {
 }
 
 interface LoginInput {
-  email: string;
+  id: string;
   password: string;
 }
 
-interface RegisterInput {
-  email: string;
+interface HistoryItem {
+  date: string;
+  id: number;
   name: string;
-  password: string;
+  photo: string;
+  result: string;
+  status: string;
 }

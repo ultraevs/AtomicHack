@@ -32,7 +32,7 @@
 
 .auth__form {
   width: 100%;
-  margin-top: 77px;
+  margin-top: 32px;
   display: flex;
   flex-direction: column;
   gap: 12px;
@@ -51,6 +51,10 @@
   line-height: 19.2px;
 }
 
+.auth__button {
+  margin-top: 371px;
+}
+
 .auth__button button {
   cursor: pointer;
   border: 1px solid #828282;
@@ -61,12 +65,4 @@
   color: #828282;
   font-size: 16px;
   line-height: 19.2px;
-}
-
-.authButton {
-  margin-top: 294px;
-}
-
-.registerButton {
-  margin-top: 243px;
 }
