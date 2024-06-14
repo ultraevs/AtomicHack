@@ -2,7 +2,7 @@ import React, { useEffect, useState } from "react";
 import styles from "./styles.module.css";
 import cn from "classnames";
 import { useDropzone } from "react-dropzone";
-import { convertBase64ToBlob, convertFileToBase64 } from "../../helpers";
+import { convertFileToBase64 } from "../../helpers";
 import { setImgList, uploadImg } from "../../state/slices/ImgList/ImgList";
 import { useDispatch, useSelector } from "react-redux";
 import { RootState } from "../../state/store";
@@ -63,14 +63,15 @@ const Main = () => {
 
   const items = useSelector((store: RootState) => store.imgList.items);
 
-  console.log(convertBase64ToBlob(items[indexOfTheFile]));
-
   return (
     <section className={cn("container", styles.page)}>
       {items.length ? (
         <>
           <div className={styles.dropzone}>
-            <img src={`data:image/jpeg;base64,${items[indexOfTheFile]}`} alt={`${indexOfTheFile} ml image`} />
+            <img
+              src={`data:image/jpeg;base64,${items[indexOfTheFile]}`}
+              alt={`${indexOfTheFile} ml image`}
+            />
           </div>
           <div>
             {items.map((item, index) => (
