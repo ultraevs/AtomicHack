@@ -92,7 +92,7 @@ func Login(context *gin.Context) {
 		return
 	}
 
-	var form model.LoginRequest
+	var form model.LoginResponse
 	err := database.Db.QueryRow("SELECT email, password, name, is_admin FROM atomic_users WHERE email = $1", body.Email).Scan(&form.Email, &form.Password, &form.Name, &form.IsAdmin)
 	if err == nil {
 		if err := bcrypt.CompareHashAndPassword([]byte(form.Password), []byte(body.Password)); err != nil {
