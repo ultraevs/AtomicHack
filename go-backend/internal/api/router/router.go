@@ -33,4 +33,7 @@ func (router *Router) Setup() {
 	router.engine.Use(middleware.RateLimiterMiddleware())
 	v1 := router.engine.Group("/v1")
 	router.HistoryRouters(v1)
+	router.AuthRoutes(v1)
+	router.UserRoutes(v1)
+	router.AdminRoutes(v1)
 }

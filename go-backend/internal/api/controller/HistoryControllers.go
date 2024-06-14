@@ -5,34 +5,9 @@ import (
 	"app/internal/model"
 	"database/sql"
 	"github.com/gin-gonic/gin"
-	"github.com/golang-jwt/jwt/v4"
-	"github.com/google/uuid"
 	"net/http"
-	"os"
 	"time"
 )
-
-// GenerateUserToken создать токен для юзера.
-// @Summary Создать токен для юзера
-// @Description Возвращает токен для cookie юзера.
-// @Accept json
-// @Produce json
-// @Success 200 {object} model.CodeResponse "Токен получен"
-// @Failure 400 {object} model.ErrorResponse "Не удалось получить токен"
-// @Tags History
-// @Router /v1/generate [get]
-func GenerateUserToken(context *gin.Context) {
-	token := jwt.NewWithClaims(jwt.SigningMethodHS256, jwt.MapClaims{
-		"sub": uuid.New().String(),
-		"exp": time.Now().Add(time.Hour * 24 * 30).Unix(),
-	})
-	tokenString, err := token.SignedString([]byte(os.Getenv("SECRET")))
-	if err != nil {
-		context.JSON(http.StatusBadRequest, gin.H{"error": "Invalid token"})
-		return
-	}
-	context.JSON(http.StatusOK, gin.H{"token": tokenString})
-}
 
 // GetHistory получить историю пользователя.
 // @Summary Получить историю пользователя
@@ -45,8 +20,8 @@ func GenerateUserToken(context *gin.Context) {
 // @Security CookieAuth
 // @Router /v1/gethistory [get]
 func GetHistory(context *gin.Context) {
-	userID := context.Param("user_id")
-	rows, err := database.Db.Query("SELECT date, result, status, photo FROM atomic_history WHERE user_id = $1", userID)
+	name := context.Param("Name")
+	rows, err := database.Db.Query("SELECT date, result, status, photo FROM atomic_history WHERE name = $1", name)
 	if err != nil {
 		context.JSON(http.StatusInternalServerError, gin.H{"error": "failed to query database"})
 		return
@@ -93,7 +68,7 @@ func GetHistory(context *gin.Context) {
 // @Security CookieAuth
 // @Router /v1/addhistory [get]
 func AddHistory(context *gin.Context) {
-	userID, err := context.Cookie("user_id")
+	name, err := context.Cookie("Name")
 	if err != nil {
 		context.JSON(http.StatusBadRequest, gin.H{"error": "user_id cookie not found"})
 		return
@@ -105,7 +80,7 @@ func AddHistory(context *gin.Context) {
 	}
 
 	currentTime := time.Now().Format(time.RFC3339)
-	_, err = database.Db.Exec("INSERT INTO atomic_history (user_id, date, result, status, photo) VALUES ($1, $2, $3, $4, $5)", userID, currentTime, request.Result, request.Status, request.Photo)
+	_, err = database.Db.Exec("INSERT INTO atomic_history (name, date, result, status, photo) VALUES ($1, $2, $3, $4, $5)", name, currentTime, request.Result, request.Status, request.Photo)
 	if err != nil {
 		context.JSON(http.StatusInternalServerError, gin.H{"error": "failed to insert history into database"})
 		return
