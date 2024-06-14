@@ -16,7 +16,6 @@ export const uploadImg = createAsyncThunk("imgList", async (img: string) => {
       }
     );
 
-    console.log(response);
     return { success: response.status, data: response.data };
   } catch (error: any) {
     console.error(error);
