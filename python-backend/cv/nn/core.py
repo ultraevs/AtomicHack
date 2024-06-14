@@ -122,7 +122,7 @@ def draw(image, xyxyn, draw_style, colorcode, class_, conf):
 def add_legend(image, colorcode):
     start_x = 10
     start_y = 10
-    square_size = 20
+    square_size = 40  # увеличиваем размер квадратов в два раза
     padding = 5
     font = cv2.FONT_HERSHEY_SIMPLEX
     font_scale = 0.5
@@ -130,10 +130,10 @@ def add_legend(image, colorcode):
     thickness = 1
 
     for idx, (class_name, class_color) in enumerate(colorcode.items()):
-        top_left = (start_x, start_y + idx * (square_size + padding))
-        bottom_right = (start_x + square_size, start_y + square_size + idx * (square_size + padding))
+        top_left = (start_x, start_y + idx * (square_size + padding * 2))  # увеличиваем отступ в два раза
+        bottom_right = (start_x + square_size, start_y + square_size + idx * (square_size + padding * 2))
         cv2.rectangle(image, top_left, bottom_right, class_color, -1)
-        cv2.putText(image, class_name, (start_x + square_size + padding, start_y + square_size - padding + idx * (square_size + padding)), font, font_scale, color, thickness)
+        cv2.putText(image, class_name, (start_x + square_size + padding * 2, start_y + square_size - padding * 2 + idx * (square_size + padding * 2)), font, font_scale, color, thickness)
 
 def image_to_base64(image):
     _, buffer = cv2.imencode('.jpg', image)
