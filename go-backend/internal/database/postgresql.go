@@ -36,12 +36,19 @@ func ConnectDatabase() {
 	createTablesQuery := `
 	CREATE TABLE IF NOT EXISTS atomic_history (
 		id SERIAL PRIMARY KEY,
-		user_id INTEGER NOT NULL,
+		name VARCHAR(255) NOT NULL,
 	    date VARCHAR(255) NOT NULL,
 	    result VARCHAR(255) NOT NULL,
 	    status VARCHAR(255) NOT NULL,
 	    photo TEXT
-	)
+	);
+	CREATE TABLE IF NOT EXISTS atomic_users (
+		id SERIAL PRIMARY KEY,
+		name VARCHAR(255) NOT NULL,
+	    email VARCHAR(255) NOT NULL UNIQUE,
+	    is_admin BOOLEAN,
+	    password VARCHAR(255) NOT NULL
+	);
 	`
 	_, err = Db.Exec(createTablesQuery)
 	if err != nil {

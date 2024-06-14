@@ -8,6 +8,5 @@ import (
 
 func (router *Router) HistoryRouters(group *gin.RouterGroup) {
 	group.GET("/gethistory", middleware.CookieMiddleware(), controller.GetHistory)
-	group.GET("token", controller.GenerateUserToken)
 	group.POST("addhistory", middleware.CookieMiddleware(), controller.AddHistory)
 }
