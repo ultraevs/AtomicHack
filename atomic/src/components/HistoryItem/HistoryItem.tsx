@@ -11,7 +11,7 @@ const HistoryItem = ({ item }: Props) => {
   return (
     <div className={styles.historyItem}>
       <div className={styles.historyItem__img}>
-        <img src={item.photo} alt="img" />
+        <img src={`data:image/jpeg;base64,${item.photo}`} alt="img" />
       </div>
       <div className={styles.historyItem__info}>
         <p>{item.date}</p>

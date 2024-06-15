@@ -30,6 +30,7 @@ const Auth = () => {
 
         if (response.success) {
           setAuthTokenCookie(response.data);
+          window.localStorage.setItem("isAuth", "true")
           navigate("/");
         } else {
           alert("Ошибка: " + response.error);
