@@ -16,6 +16,6 @@
   border-radius: 16px;
   overflow: hidden;
   width: 90%;
-  height: 60%;
-  padding: 16px 12px 0px;
+  height: auto;
+  padding: 16px 12px 36px;
 }
