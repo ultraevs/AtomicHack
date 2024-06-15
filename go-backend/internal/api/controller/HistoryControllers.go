@@ -66,7 +66,7 @@ func GetHistory(context *gin.Context) {
 // @Failure 400 {object} model.ErrorResponse "Не удалось добавить запись"
 // @Tags History
 // @Security CookieAuth
-// @Router /v1/addhistory [get]
+// @Router /v1/addhistory [post]
 func AddHistory(context *gin.Context) {
 	name, _ := context.MustGet("Name").(string)
 	var request model.NewHistory
