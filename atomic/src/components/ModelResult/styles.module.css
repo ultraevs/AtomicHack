@@ -23,7 +23,7 @@
 }
 
 .modelResult__tumblers {
-  margin-top: 16px;
+  margin-top: 12px;
   display: flex;
   flex-direction: row;
   align-items: center;
@@ -32,8 +32,8 @@
 
 .modelResult__tumbler {
   cursor: pointer;
-  width: 36px;
-  height: 36px;
+  width: 26px;
+  height: 26px;
   background: transparent;
   border-radius: 999px;
   border: 2px solid #828282;
