@@ -25,8 +25,8 @@ func (router *Router) Setup() {
 	gin.SetMode(gin.DebugMode)
 	router.engine.Use(cors.New(cors.Config{
 		AllowOrigins:     []string{"https://atomic.shmyaks.ru", "http://localhost:5173"},
-		AllowMethods:     []string{"*"},
-		AllowHeaders:     []string{"*"},
+		AllowMethods:     []string{"GET", "POST", "OPTIONS"},
+		AllowHeaders:     []string{"Content-Type", "Authorization"},
 		AllowCredentials: true,
 	}))
 	router.engine.GET("v1/swagger/*any", ginSwagger.WrapHandler(swaggerFiles.Handler))
