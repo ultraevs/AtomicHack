@@ -46,7 +46,7 @@ export const addHistory = createAsyncThunk(
           date: "15.06.2024",
           result: data.result,
           status: concatenatedString,
-          photo: img,
+          photo: data.images[0],
           comment: comment
         },
         {
