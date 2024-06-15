@@ -15,6 +15,26 @@
   line-height: 19.2px;
 }
 
+.history__filters {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  gap: 8px;
+}
+
+.history__filters__clear {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 2px;
+  border: 1px solid #828282;
+  border-radius: 999px;
+}
+
+.history__filters__clear svg {
+  color: #828282;
+}
+
 .history__items {
   margin-top: 16px;
   height: 360px;
@@ -36,12 +56,12 @@
 
 .history__button button {
   cursor: pointer;
-  border: 1px solid #BC3B3B;
+  border: 1px solid #bc3b3b;
   border-radius: 999px;
   padding: 6px 14px;
   background: transparent;
   font-family: StolzlBook;
-  color: #BC3B3B;
+  color: #bc3b3b;
   font-size: 16px;
   line-height: 19.2px;
 }
