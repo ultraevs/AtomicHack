@@ -34,10 +34,11 @@ func GetHistory(context *gin.Context) {
 
 	var history []gin.H
 	for rows.Next() {
-		var date, result, status, photo, comment string
+		var date, result, status, photo string
+		var comment sql.NullString
 		err := rows.Scan(&date, &result, &status, &photo, &comment)
 		if err != nil {
-			context.JSON(http.StatusInternalServerError, gin.H{"error": "failed to scan row"})
+			context.JSON(http.StatusInternalServerError, gin.H{"error": err.Error()})
 			return
 		}
 
