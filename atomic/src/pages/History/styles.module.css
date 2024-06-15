@@ -1,5 +1,5 @@
 .history__select {
-  margin: 20px 0px;
+  margin: 16px 0px;
   display: flex;
   flex-direction: row;
   justify-content: center;
@@ -16,6 +16,7 @@
 }
 
 .history__items {
+  margin-top: 16px;
   height: 437px;
   overflow-y: scroll;
   display: flex;

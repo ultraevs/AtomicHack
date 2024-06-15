@@ -3,7 +3,7 @@ import axios from "axios";
 export const getAdminItems = async () => {
   try {
     const response = await axios.get(
-      "https://atomic.shmyaks.ru/v1/getrecognitions",
+      "http://localhost:8083/v1/getrecognitions",
 
       {
         withCredentials: true,
@@ -18,7 +18,7 @@ export const getAdminItems = async () => {
 export const getUserItems = async () => {
   try {
     const response = await axios.get(
-      "https://atomic.shmyaks.ru/v1/gethistory",
+      "http://localhost:8083/v1/gethistory",
 
       {
         withCredentials: true,

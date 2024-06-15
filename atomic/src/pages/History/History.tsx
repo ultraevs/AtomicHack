@@ -11,21 +11,16 @@ import { useNavigate } from "react-router-dom";
 React;
 
 const History = () => {
-  const navigate = useNavigate()
+  const navigate = useNavigate();
   const [items, setItems] = useState<any[]>([]);
   const [isPersonalHistory, setIsPersonalHistory] = useState<boolean>(true);
   useEffect(() => {
     const getData = async () => {
       const response = await infoUser();
       window.localStorage.setItem("isAdmin", response.data.is_admin);
-      if (window.localStorage.getItem("isAdmin")) {
-        const response = await getAdminItems();
-        setItems(response.data);
-        console.log(response);
-      } else {
-        const response = await getUserItems();
-        console.log(response);
-      }
+
+      const responseItems = await getUserItems();
+      setItems(responseItems.data);
     };
 
     getData();
@@ -45,17 +40,17 @@ const History = () => {
 
   const onExitClick = () => {
     window.localStorage.setItem("isAuth", "false");
-    navigate("/auth")
+    navigate("/auth");
   };
 
   return (
     <Layout>
       <div className={cn("container", styles.history)}>
-        {window.localStorage.getItem("isAdmin") ? (
+        {JSON.parse(window.localStorage.getItem("isAdmin") || "false") ? (
           <>
             <div className={styles.history__select}>
               <p onClick={() => onPersonalClick()}>Личная</p>
-              <p onClick={() => onAdminClick()}>Статистика</p>
+              <p onClick={() => onAdminClick()}>Общая</p>
             </div>
             <div className={styles.history__items}>
               {items.map((item) => (
@@ -64,7 +59,13 @@ const History = () => {
             </div>
           </>
         ) : (
-          <></>
+          <>
+            <div className={styles.history__items}>
+              {items.map((item) => (
+                <HistoryItem key={item.id} item={item} />
+              ))}
+            </div>
+          </>
         )}
 
         <div className={styles.history__button}>
