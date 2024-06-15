@@ -6,7 +6,6 @@ import (
 	"database/sql"
 	"github.com/gin-gonic/gin"
 	"net/http"
-	"time"
 )
 
 // GetHistory получить историю пользователя.
@@ -75,8 +74,7 @@ func AddHistory(context *gin.Context) {
 		return
 	}
 
-	currentTime := time.Now().Format(time.RFC3339)
-	_, err := database.Db.Exec("INSERT INTO atomic_history (name, date, result, status, photo) VALUES ($1, $2, $3, $4, $5)", name, currentTime, request.Result, request.Status, request.Photo)
+	_, err := database.Db.Exec("INSERT INTO atomic_history (name, date, result, status, photo) VALUES ($1, $2, $3, $4, $5)", name, request.Date, request.Result, request.Status, request.Photo)
 	if err != nil {
 		context.JSON(http.StatusInternalServerError, gin.H{"error": "failed to insert history into database"})
 		return
