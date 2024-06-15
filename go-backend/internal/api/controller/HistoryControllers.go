@@ -51,7 +51,7 @@ func GetHistory(context *gin.Context) {
 	}
 
 	if len(history) == 0 {
-		context.JSON(http.StatusOK, gin.H{"message": "No history"})
+		context.JSON(http.StatusOK, gin.H{})
 	} else {
 		context.JSON(http.StatusOK, history)
 	}

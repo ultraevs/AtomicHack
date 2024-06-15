@@ -49,7 +49,7 @@ func GetRecognitions(context *gin.Context) {
 	}
 
 	if len(recognitions) == 0 {
-		context.JSON(http.StatusOK, gin.H{"message": "No recognitions"})
+		context.JSON(http.StatusOK, gin.H{})
 	} else {
 		context.JSON(http.StatusOK, recognitions)
 	}
