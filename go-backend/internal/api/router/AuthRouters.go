@@ -6,9 +6,5 @@ import (
 )
 
 func (router *Router) AuthRoutes(group *gin.RouterGroup) {
-	group.POST("/user_create", controller.UserCreate)
 	group.POST("/login", controller.Login)
-	group.POST("/forgot", controller.ForgotPassword)
-	group.GET("/newpass", controller.NewPassword)
-	group.POST("/newpass", controller.PostNewPassword)
 }
