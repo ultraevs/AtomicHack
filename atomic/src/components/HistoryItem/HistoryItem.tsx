@@ -15,7 +15,12 @@ const HistoryItem = ({ item }: Props) => {
       </div>
       <div className={styles.historyItem__info}>
         <p>{item.date}</p>
-        <p>text: data</p>
+        <p>
+          Результат: <span>{item.result}</span>
+        </p>
+        <p>
+          Статус: <span>{item.status}</span>
+        </p>
       </div>
       <div className={styles.historyItem__button}>
         <button>Открыть</button>

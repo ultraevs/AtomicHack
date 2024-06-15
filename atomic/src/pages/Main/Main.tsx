@@ -50,8 +50,7 @@ const Main = () => {
   const buttonConfirmClick = async () => {
     try {
       const base64String = await convertFileToBase64(file[0]);
-      const response = dispatch(uploadImg(base64String.split(",")[1]));
-      console.log(response)
+      dispatch(uploadImg(base64String.split(",")[1]));
     } catch (error) {
       console.error("Ошибка при преобразовании файла в base64:", error);
     }
@@ -68,6 +67,7 @@ const Main = () => {
   }, []);
 
   const items = useSelector((store: RootState) => store.imgList.items);
+  const objects = useSelector((store: RootState) => store.imgList.objects);
 
   return (
     <Layout>
@@ -94,13 +94,13 @@ const Main = () => {
             )}
           </div>
         )}
-
         <button
           className={
             isFileLoaded
               ? cn(styles.button, styles.buttonConfirm)
               : cn(styles.button, styles.buttonClear)
           }
+          style={{ marginTop: items.length ? 53 : 105 }}
           onClick={() => {
             if (items.length) {
               buttonClearClick();
@@ -111,6 +111,15 @@ const Main = () => {
         >
           {items.length ? "Очистить" : "Подтвердить"}
         </button>
+        <div className={styles.objects}>
+          {objects.map((item) => (
+            <div key={item[1]}>
+              <p>
+                {item[0]}: <span>{item[1]}</span>
+              </p>
+            </div>
+          ))}
+        </div>
       </div>
     </Layout>
   );

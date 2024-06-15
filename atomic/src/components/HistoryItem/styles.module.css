@@ -1,15 +1,14 @@
 .historyItem {
   width: 100%;
-  min-height: 81px;
+  height: 81px;
   display: flex;
   flex-direction: row;
-  align-items: flex-start;
-  justify-content: space-between;
+  gap: 11px;
 }
 
 .historyItem__img {
   overflow: hidden;
-  width: 30%;
+  width: 142px;
   height: 100%;
   border-radius: 12px;
 }
@@ -17,6 +16,14 @@
 .historyItem__img img {
   width: 100%;
   height: 100%;
+  object-fit: cover;
+}
+
+.historyItem__info {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
 }
 
 .historyItem__info p {
@@ -24,6 +31,10 @@
   color: #000000;
   font-size: 16px;
   line-height: 19.2px;
+}
+
+.historyItem__info p span {
+  color: #828282;
 }
 
 .historyItem__button {
