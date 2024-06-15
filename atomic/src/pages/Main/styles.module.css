@@ -33,6 +33,23 @@
   height: 100%;
 }
 
+.comment {
+  margin-top: 12px;
+  width: 100%;
+}
+
+.comment input {
+  width: 100%;
+  outline: none;
+  border: 1px solid #828282;
+  border-radius: 999px;
+  padding: 6px 14px;
+  font-family: StolzlBook;
+  color: #828282;
+  font-size: 16px;
+  line-height: 19.2px;
+}
+
 .tumblers {
   margin-top: 16px;
   display: flex;

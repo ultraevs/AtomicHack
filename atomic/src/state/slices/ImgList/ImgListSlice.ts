@@ -4,7 +4,7 @@ import axios from "axios";
 
 export const uploadImg = createAsyncThunk(
   "imgList",
-  async (img: string, { dispatch }) => {
+  async ({ img, comment }: { img: string; comment: string }, { dispatch }) => {
     try {
       const response = await axios.post(
         "https://atomic.shmyaks.ru/cv/check",
@@ -18,7 +18,7 @@ export const uploadImg = createAsyncThunk(
         }
       );
 
-      dispatch(addHistory({ data: response.data, img: img }));
+      dispatch(addHistory({ data: response.data, img: img, comment: comment }));
 
       return { success: response.status, data: response.data };
     } catch (error: any) {
@@ -30,13 +30,15 @@ export const uploadImg = createAsyncThunk(
 
 export const addHistory = createAsyncThunk(
   "imgList",
-  async ({ data, img }: { data: any; img: string }) => {
-    
+  async ({ data, img, comment }: { data: any; img: string, comment: string }) => {
     try {
-      const concatenatedString: string = data.objects.reduce(
-        (accumulator: string, currentValue: string) => accumulator + currentValue[0] + ", ",
-        ""
-      ).slice(0, -2);
+      const concatenatedString: string = data.objects
+        .reduce(
+          (accumulator: string, currentValue: string) =>
+            accumulator + currentValue[0] + ", ",
+          ""
+        )
+        .slice(0, -2);
 
       const response = await axios.post(
         "http://localhost:8083/v1/addhistory",
@@ -45,6 +47,7 @@ export const addHistory = createAsyncThunk(
           result: data.result,
           status: concatenatedString,
           photo: img,
+          comment: comment
         },
         {
           withCredentials: true,

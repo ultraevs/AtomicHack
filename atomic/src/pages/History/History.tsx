@@ -70,6 +70,7 @@ const History = () => {
       date: "",
       status: "",
     });
+    
     const response = await getAdminItems({
       name: "",
       date: "",
