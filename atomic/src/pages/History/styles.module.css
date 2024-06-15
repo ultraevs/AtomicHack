@@ -17,11 +17,11 @@
 
 .history__items {
   margin-top: 16px;
-  height: 437px;
+  height: 360px;
   overflow-y: scroll;
   display: flex;
   flex-direction: column;
-  gap: 8px;
+  gap: 12px;
 }
 
 .history__items::-webkit-scrollbar {
@@ -29,7 +29,7 @@
 }
 
 .history__button {
-  margin-top: 48px;
+  margin-top: 28px;
   display: flex;
   justify-content: center;
 }

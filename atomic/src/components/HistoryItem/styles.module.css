@@ -29,8 +29,7 @@
 .historyItem__info p {
   font-family: StolzlBook;
   color: #000000;
-  font-size: 16px;
-  line-height: 19.2px;
+  font-size: 12px;
 }
 
 .historyItem__info p span {
