@@ -8,6 +8,7 @@ import { useDispatch, useSelector } from "react-redux";
 import { RootState } from "../../state/store";
 import { Layout } from "../../layout/Layout";
 import { ModelResult } from "../../components/ModelResult";
+import { IsAuth } from "../../components/HOC";
 // eslint-disable-next-line no-unused-vars
 React;
 
@@ -49,7 +50,8 @@ const Main = () => {
   const buttonConfirmClick = async () => {
     try {
       const base64String = await convertFileToBase64(file[0]);
-      dispatch(uploadImg(base64String.split(",")[1]));
+      const response = dispatch(uploadImg(base64String.split(",")[1]));
+      console.log(response)
     } catch (error) {
       console.error("Ошибка при преобразовании файла в base64:", error);
     }
@@ -114,4 +116,4 @@ const Main = () => {
   );
 };
 
-export { Main };
+export default IsAuth(Main);

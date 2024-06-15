@@ -23,6 +23,26 @@ export const uploadImg = createAsyncThunk("imgList", async (img: string) => {
   }
 });
 
+// export const addHistory = createAsyncThunk("imgList", async (data: any) => {
+//   try {
+//     const response = await axios.post(
+//       "https://atomic.shmyaks.ru/v1/addhistory",
+//       {
+//         date: data.date,
+//         result: data.result,
+//         objects: data.objects,
+//         photo: data.photo,
+//       },
+//       {
+//         withCredentials: true,
+//       }
+//     );
+//     return { success: true, data: response.data };
+//   } catch (error) {
+//     return { success: false, error: error };
+//   }
+// });
+
 const initialState = {
   items: [],
   count: 0,

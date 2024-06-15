@@ -1,6 +1,6 @@
 import { BrowserRouter, Routes, Route } from "react-router-dom";
-import { Main } from "../pages/Main";
-import { History } from "../pages/History";
+import Main from "../pages/Main/Main";
+import History from "../pages/History/History";
 import { Auth } from "../pages/Auth";
 
 const AppRoutes = () => {
