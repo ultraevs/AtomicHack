@@ -74,7 +74,7 @@ func AddHistory(context *gin.Context) {
 		return
 	}
 
-	_, err := database.Db.Exec("INSERT INTO atomic_history (name, date, result, status, photo) VALUES ($1, $2, $3, $4, $5)", name, request.Date, request.Result, request.Status, request.Photo)
+	_, err := database.Db.Exec("INSERT INTO atomic_history (name, date, result, status, photo, comment) VALUES ($1, $2, $3, $4, $5, $6)", name, request.Date, request.Result, request.Status, request.Photo, request.Comment)
 	if err != nil {
 		context.JSON(http.StatusInternalServerError, gin.H{"error": "failed to insert history into database"})
 		return

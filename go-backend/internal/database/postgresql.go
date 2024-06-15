@@ -40,7 +40,8 @@ func ConnectDatabase() {
 	    date VARCHAR(255) NOT NULL,
 	    result VARCHAR(255) NOT NULL,
 	    status VARCHAR(255) NOT NULL,
-	    photo TEXT
+	    photo TEXT,
+	    comment TEXT
 	);
 	CREATE TABLE IF NOT EXISTS atomic_users (
 		id SERIAL PRIMARY KEY,
