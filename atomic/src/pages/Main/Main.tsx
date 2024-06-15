@@ -100,7 +100,7 @@ const Main = () => {
               ? cn(styles.button, styles.buttonConfirm)
               : cn(styles.button, styles.buttonClear)
           }
-          style={{ marginTop: items.length ? 53 : 105 }}
+          style={{ marginTop: items.length ? 23 : 75 }}
           onClick={() => {
             if (items.length) {
               buttonClearClick();
