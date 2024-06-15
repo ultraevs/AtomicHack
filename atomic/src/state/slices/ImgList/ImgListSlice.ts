@@ -39,7 +39,7 @@ export const addHistory = createAsyncThunk(
       ).slice(0, -2);
 
       const response = await axios.post(
-        "https://atomic.shmyaks.ru/v1/addhistory",
+        "http://localhost:8083/v1/addhistory",
         {
           date: "15.06.2024",
           result: data.result,

@@ -4,7 +4,7 @@ export const getAdminItems = async (data: any) => {
   console.log(data)
   try {
     const response = await axios.get(
-      `https://atomic.shmyaks.ru/v1/getrecognitions?name=${data.name}&date=${data.date}&status=${data.status}`,
+      `http://localhost:8083/v1/getrecognitions?name=${data.name}&date=${data.date}&status=${data.status}`,
       {
         withCredentials: true,
       }
@@ -18,7 +18,7 @@ export const getAdminItems = async (data: any) => {
 export const getUserItems = async () => {
   try {
     const response = await axios.get(
-      "https://atomic.shmyaks.ru/v1/gethistory",
+      "http://localhost:8083/v1/gethistory",
 
       {
         withCredentials: true,

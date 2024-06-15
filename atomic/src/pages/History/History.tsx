@@ -97,7 +97,8 @@ const History = () => {
                 Общая
               </p>
             </div>
-            {JSON.parse(window.localStorage.getItem("isAdmin") || "false") ? (
+            {JSON.parse(window.localStorage.getItem("isAdmin") || "false") &&
+            !isPersonalHistory ? (
               <div className={styles.history__filters}>
                 <Filter
                   title="Имя"
