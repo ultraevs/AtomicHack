@@ -7,7 +7,7 @@ from fastapi.responses import JSONResponse
 from pydantic import BaseModel
 from ultralytics import YOLO
 
-model = YOLO('cv/models/best.pt')
+model = YOLO('cv/models/shmyaks.pt')
 
 app = FastAPI()
 router = APIRouter(tags=["Model"])
