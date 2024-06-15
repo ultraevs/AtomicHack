@@ -34,7 +34,7 @@ func Login(context *gin.Context) {
 	}
 
 	var form model.LoginResponse
-	err := database.Db.QueryRow("SELECT user_id, password, name, is_admin FROM atomic_users WHERE email = $1", body.ID).Scan(&form.ID, &form.Password, &form.Name, &form.IsAdmin)
+	err := database.Db.QueryRow("SELECT user_id, password, name, is_admin FROM atomic_users WHERE user_id = $1", body.ID).Scan(&form.ID, &form.Password, &form.Name, &form.IsAdmin)
 	if err == nil {
 		if err := bcrypt.CompareHashAndPassword([]byte(form.Password), []byte(body.Password)); err != nil {
 			context.JSON(http.StatusUnauthorized, gin.H{"error": "Wrong password"})

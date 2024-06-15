@@ -20,7 +20,7 @@ import (
 // @Security CookieAuth
 // @Router /v1/gethistory [get]
 func GetHistory(context *gin.Context) {
-	name := context.Param("Name")
+	name := context.MustGet("Name").(string)
 	rows, err := database.Db.Query("SELECT date, result, status, photo FROM atomic_history WHERE name = $1", name)
 	if err != nil {
 		context.JSON(http.StatusInternalServerError, gin.H{"error": "failed to query database"})
@@ -68,11 +68,7 @@ func GetHistory(context *gin.Context) {
 // @Security CookieAuth
 // @Router /v1/addhistory [get]
 func AddHistory(context *gin.Context) {
-	name, err := context.Cookie("Name")
-	if err != nil {
-		context.JSON(http.StatusBadRequest, gin.H{"error": "user_id cookie not found"})
-		return
-	}
+	name, _ := context.MustGet("Name").(string)
 	var request model.NewHistory
 	if err := context.BindJSON(&request); err != nil {
 		context.JSON(http.StatusBadRequest, gin.H{"error": "invalid JSON data"})
@@ -80,7 +76,7 @@ func AddHistory(context *gin.Context) {
 	}
 
 	currentTime := time.Now().Format(time.RFC3339)
-	_, err = database.Db.Exec("INSERT INTO atomic_history (name, date, result, status, photo) VALUES ($1, $2, $3, $4, $5)", name, currentTime, request.Result, request.Status, request.Photo)
+	_, err := database.Db.Exec("INSERT INTO atomic_history (name, date, result, status, photo) VALUES ($1, $2, $3, $4, $5)", name, currentTime, request.Result, request.Status, request.Photo)
 	if err != nil {
 		context.JSON(http.StatusInternalServerError, gin.H{"error": "failed to insert history into database"})
 		return

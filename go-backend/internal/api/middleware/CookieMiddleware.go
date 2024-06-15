@@ -27,9 +27,9 @@ func CookieMiddleware() gin.HandlerFunc {
 
 		if claims, ok := token.Claims.(jwt.MapClaims); ok && token.Valid {
 			Name := claims["name"].(string)
-			Email := claims["email"].(string)
+			ID := claims["sub"].(string)
 			context.Set("Name", Name)
-			context.Set("Email", Email)
+			context.Set("ID", ID)
 			context.Next()
 		} else {
 			context.JSON(http.StatusUnauthorized, gin.H{"error": "Bad Token"})

@@ -7,7 +7,7 @@ type LoginRequest struct {
 
 type LoginResponse struct {
 	ID       int    `json:"id" binding:"required"`
-	Password string `json:"password" binding:"required"`
 	Name     string `json:"name"  binding:"required"`
 	IsAdmin  bool   `json:"is_admin" binding:"required"`
+	Password string `json:"password" binding:"required"`
 }
