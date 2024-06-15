@@ -10,6 +10,7 @@ import (
 	"golang.org/x/crypto/bcrypt"
 	"net/http"
 	"os"
+	"strconv"
 	"time"
 )
 
@@ -45,7 +46,7 @@ func Login(context *gin.Context) {
 	}
 
 	token := jwt.NewWithClaims(jwt.SigningMethodHS256, jwt.MapClaims{
-		"sub":  form.ID,
+		"sub":  strconv.Itoa(form.ID),
 		"exp":  time.Now().Add(time.Hour * 24 * 30).Unix(),
 		"name": form.Name,
 	})
