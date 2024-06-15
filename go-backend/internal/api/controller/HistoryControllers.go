@@ -20,7 +20,7 @@ import (
 // @Router /v1/gethistory [get]
 func GetHistory(context *gin.Context) {
 	name := context.MustGet("Name").(string)
-	rows, err := database.Db.Query("SELECT date, result, status, photo FROM atomic_history WHERE name = $1", name)
+	rows, err := database.Db.Query("SELECT date, result, status, photo, comment FROM atomic_history WHERE name = $1", name)
 	if err != nil {
 		context.JSON(http.StatusInternalServerError, gin.H{"error": "failed to query database"})
 		return
@@ -34,18 +34,19 @@ func GetHistory(context *gin.Context) {
 
 	var history []gin.H
 	for rows.Next() {
-		var date, result, status, photo string
-		err := rows.Scan(&date, &result, &status, &photo)
+		var date, result, status, photo, comment string
+		err := rows.Scan(&date, &result, &status, &photo, &comment)
 		if err != nil {
 			context.JSON(http.StatusInternalServerError, gin.H{"error": "failed to scan row"})
 			return
 		}
 
 		history = append(history, gin.H{
-			"date":   date,
-			"result": result,
-			"status": status,
-			"photo":  photo,
+			"date":    date,
+			"result":  result,
+			"status":  status,
+			"photo":   photo,
+			"comment": comment,
 		})
 	}
 
