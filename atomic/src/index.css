@@ -15,6 +15,10 @@ body {
   width: auto;
 }
 
+.is-hidden {
+  display: none !important;
+}
+
 @font-face {
   font-family: StolzlBond;
   src: url("../src/fonts/Stolzl/stolzl_bold.otf");

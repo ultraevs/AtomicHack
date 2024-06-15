@@ -1,0 +1,47 @@
+.content {
+}
+
+.content__img {
+  width: 100%;
+  aspect-ratio: 1 / 1;
+  border-radius: 16px;
+  overflow: hidden;
+}
+
+.content__img img {
+  width: 100%;
+  height: 100%;
+}
+
+.content__info {
+  margin-top: 8px;
+}
+
+.content__info p {
+  font-family: StolzlBook;
+  color: #000000;
+  font-size: 16px;
+  line-height: 19.2px;
+}
+
+.content__info p span {
+  color: #828282;
+}
+
+.content__button {
+  margin-top: 32px;
+  display: flex;
+  justify-content: center;
+}
+
+.content__button button {
+  cursor: pointer;
+  border-radius: 999px;
+  padding: 6px 14px;
+  background: transparent;
+  font-family: StolzlBook;
+  border: 1px solid #1964a7;
+  color: #6e5f86;
+  font-size: 16px;
+  line-height: 19.2px;
+}

@@ -70,7 +70,7 @@ const History = () => {
       date: "",
       status: "",
     });
-    
+
     const response = await getAdminItems({
       name: "",
       date: "",
@@ -151,6 +151,8 @@ const History = () => {
         <div className={styles.history__button}>
           <button onClick={() => onExitClick()}>Выйти</button>
         </div>
+
+        
       </div>
     </Layout>
   );
