@@ -25,7 +25,7 @@ func GetRecognitions(context *gin.Context) {
 	date := context.Query("date")
 	status := context.Query("status")
 
-	rows, err := database.Db.Query("SELECT id, name, date, result, status, photo FROM atomic_history WHERE ($1 = '' OR name ILIKE '%' || $1 || '%') AND ($2 = '' OR date ILIKE '%' || $2 || '%') AND ($3 = '' OR status ILIKE '%' || $3 || '%')", name, date, status)
+	rows, err := database.Db.Query("SELECT id, name, date, result, status, photo, comment FROM atomic_history WHERE ($1 = '' OR name ILIKE '%' || $1 || '%') AND ($2 = '' OR date ILIKE '%' || $2 || '%') AND ($3 = '' OR status ILIKE '%' || $3 || '%')", name, date, status)
 	if err != nil {
 		context.JSON(http.StatusInternalServerError, gin.H{"error": "failed to query database"})
 		return
@@ -40,7 +40,7 @@ func GetRecognitions(context *gin.Context) {
 	var recognitions []model.Recognition
 	for rows.Next() {
 		var rec model.Recognition
-		err := rows.Scan(&rec.ID, &rec.Name, &rec.Date, &rec.Result, &rec.Status, &rec.Photo)
+		err := rows.Scan(&rec.ID, &rec.Name, &rec.Date, &rec.Result, &rec.Status, &rec.Photo, &rec.Comment)
 		if err != nil {
 			context.JSON(http.StatusInternalServerError, gin.H{"error": "failed to scan row"})
 			return
