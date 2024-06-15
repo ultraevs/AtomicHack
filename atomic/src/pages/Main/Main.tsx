@@ -15,8 +15,10 @@ React;
 const Main = () => {
   const dispatch = useDispatch();
   const [isFileLoaded, setIsFileLoaded] = useState<boolean>(false);
+  const [isComment, setIsComment] = useState<boolean>(false);
   const [file, setFile] = useState<any[]>([]);
   const [indexOfTheFile, setIndexOfTheFile] = useState<number>(0);
+  const [comment, setComment] = useState<string>("");
 
   const { getRootProps, getInputProps } = useDropzone({
     maxFiles: 1,
@@ -25,6 +27,7 @@ const Main = () => {
     },
     onDrop: (acceptedFile) => {
       setIsFileLoaded(true);
+      setIsComment(true);
 
       setFile(
         acceptedFile.map((file) =>
@@ -48,9 +51,12 @@ const Main = () => {
   ));
 
   const buttonConfirmClick = async () => {
+    setIsComment(false);
     try {
       const base64String = await convertFileToBase64(file[0]);
-      dispatch(uploadImg(base64String.split(",")[1]));
+      dispatch(
+        uploadImg({ img: base64String.split(",")[1], comment: comment })
+      );
     } catch (error) {
       console.error("Ошибка при преобразовании файла в base64:", error);
     }
@@ -94,13 +100,25 @@ const Main = () => {
             )}
           </div>
         )}
+        {isComment ? (
+          <div className={styles.comment}>
+            <input
+              type="text"
+              placeholder="Комментарий..."
+              value={comment}
+              onChange={(e) => setComment(e.target.value)}
+            />
+          </div>
+        ) : (
+          <></>
+        )}
         <button
           className={
             isFileLoaded
               ? cn(styles.button, styles.buttonConfirm)
               : cn(styles.button, styles.buttonClear)
           }
-          style={{ marginTop: items.length ? 23 : 75 }}
+          style={{ marginTop: items.length ? 23 : isComment ? 32 : 75 }}
           onClick={() => {
             if (items.length) {
               buttonClearClick();
