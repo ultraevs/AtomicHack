@@ -49,8 +49,8 @@ const History = () => {
         {JSON.parse(window.localStorage.getItem("isAdmin") || "false") ? (
           <>
             <div className={styles.history__select}>
-              <p onClick={() => onPersonalClick()}>Личная</p>
-              <p onClick={() => onAdminClick()}>Общая</p>
+              <p className={isPersonalHistory ? styles.active : ""} onClick={() => onPersonalClick()}>Личная</p>
+              <p className={!isPersonalHistory ? styles.active : ""} onClick={() => onAdminClick()}>Общая</p>
             </div>
             <div className={styles.history__items}>
               {items.map((item) => (

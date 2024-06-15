@@ -10,7 +10,7 @@
 .history__select p {
   cursor: pointer;
   font-family: StolzlBook;
-  color: #000000;
+  color: #828282;
   font-size: 16px;
   line-height: 19.2px;
 }
@@ -44,4 +44,8 @@
   color: #BC3B3B;
   font-size: 16px;
   line-height: 19.2px;
+}
+
+.active {
+  color: #000000 !important;
 }

@@ -71,6 +71,7 @@ export const imgListSlice = createSlice({
     setImgList: (state, action) => {
       state.items = action.payload.items;
       state.count = action.payload.items.length;
+      state.objects = action.payload.items;
     },
   },
   extraReducers: (builder) => {
